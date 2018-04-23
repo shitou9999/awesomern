@@ -1,22 +1,28 @@
+import {DrawerNavigator, StackNavigator} from 'react-navigation';
 
 import WelcomeScreen from '../screen/WelcomeScreen'
-import { DrawerNavigator, StackNavigator } from 'react-navigation';
-
-
+import HomeScreen from '../screen/HomeScreen'
 
 const NavHome = StackNavigator({
-    welcome: {
-        screen: WelcomeScreen,
-        navigationOptions: {
-            header: null
-        }
+        welcome: {
+            screen: WelcomeScreen,
+            navigationOptions: {
+                header: null
+            }
+        },
+        home: {
+            screen: HomeScreen,
+            navigationOptions: {
+                header: null
+            }
+        },
+
+    }, {
+        initialRouteName: 'welcome',
+        navigationOptions: ({navigation, screenProps}) => ({
+            gesturesEnabled: true,
+        }),
     }
-},{
-    initialRouteName: 'welcome',
-    navigationOptions: ({navigation, screenProps}) => ({
-        gesturesEnabled: true,
-    }),
-}
 );
 
 

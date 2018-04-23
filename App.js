@@ -12,7 +12,7 @@ import { connect, Provider } from "react-redux";
 const store = getStore();
 
 export default class App extends React.PureComponent {
-
+//Provider将store传递给子孙组件
     render() {
         return (
             <Provider store={store}>
