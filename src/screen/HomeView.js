@@ -10,41 +10,71 @@ import {
     View,
     DeviceEventEmitter
 } from 'react-native'
+import ArticleItemView from './ArticleItemView'
+import * as homeActions from '../actions/homeActions'
 
 import {connect} from 'react-redux'
 
-class HomeView extends React.Component{
+class HomeView extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            page: 0
+        }
+    }
+
+    componentWillMount() {
+        let _that = this;
+        _that.props.getHomeList(this.state.page)
+    }
+
+    //刷新
+    _renderRefresh = () => {
+        this.setState({
+            page: 0
+        });
+        this.props.getHomeList(0)
+    };
+
+    _onEndReached = () => {
+        let page = this.state.page;
+        if (!this.props.isEnd) {
+            page++;
+            this.setState({
+                page: page
+            });
+            this.props.getHomeList(page)
+        }
+    };
 
 
-    render(){
-
-        return(
-            <View style={styles.container}>
-                <Text style={styles.welcome}>
-                    HomeView
-                </Text>
-            </View>
-        );
+    render() {
+        //ReferenceError:Canot find variable ------>引用异常
+        const {navigation, message, isLogin, datas, refreshing, banners} = this.props;
+        return (
+            <FlatList
+                data={datas}
+                renderItem={(item, index) => <ArticleItemView navigation={navigation} hide={false} item={item} />}
+                keyExtractor={(item, index) => index}
+                onEndReachedThreshold={0.1}
+                onEndReached={this._onEndReached}
+                refreshing={refreshing}
+                onRefresh={this._renderRefresh}/>
+        )
     }
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#F5FCFF',
-    },
-    welcome: {
-        fontSize: 20,
-        textAlign: 'center',
-        margin: 10,
-    },
-    instructions: {
-        textAlign: 'center',
-        color: '#333333',
-        marginBottom: 5,
-    },
-});
-
-export default HomeView
+export default connect(
+    (state) => ({
+        isSucc: state.home.isSucc,
+        datas: state.home.datas,
+        banners: state.home.banners,
+        isEnd: state.home.isEnd,
+        refreshing: state.home.refreshing,
+        likeAction: state.home.likeAction
+    }),
+    (dispatch) => ({
+        getHomeList: (num) => dispatch(homeActions.getHome(num))
+    })
+)(HomeView)

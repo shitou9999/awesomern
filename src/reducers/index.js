@@ -1,8 +1,8 @@
 import{combineReducers} from 'redux'
 
-// import home from './homeReducer'
-// import system from './systemReducer'
-// import project from './projectReducer'
+import home from './homeReducer'
+import system from './systemReducer'
+import project from './projectReducer'
 // import user from './userReducer'
 // import hot from './hotReducer'
 // import search from './searchReducer'
@@ -22,6 +22,9 @@ import{combineReducers} from 'redux'
 export default function getRootReducers(navReducer){
 //一个reducer对应state里的一个属性对应一个组件
     return combineReducers({
+        home:home,
+        system:system,
+        project:project,
         nav:navReducer
     })
 

@@ -34,7 +34,6 @@ class HomeScreen extends Component {
     }
 
     render() {
-
         const {navigation} = this.props;
 
         return (
@@ -49,22 +48,22 @@ class HomeScreen extends Component {
                     </TabNavigator.Item>
                     <TabNavigator.Item
                         selected={this.state.selectedTab === 'system'}
-                        renderIcon={() => <Icon name='md-list' size={25} color='gray'/>}
-                        renderSelectedIcon={() => <Icon name='md-list' size={25}/>}
+                        renderIcon={() => <Icon name='md-book' size={25} color='gray'/>}
+                        renderSelectedIcon={() => <Icon name='md-book' size={25}/>}
                         onPress={() => this.setState({selectedTab: 'system', title: '体系'})}>
                         <SystemView navigation={navigation}/>
                     </TabNavigator.Item>
                     <TabNavigator.Item
                         selected={this.state.selectedTab === 'project'}
-                        renderIcon={() => <Icon name='md-list' size={25} color='gray'/>}
-                        renderSelectedIcon={() => <Icon name='md-list' size={25}/>}
+                        renderIcon={() => <Icon name='md-flame' size={25} color='gray'/>}
+                        renderSelectedIcon={() => <Icon name='md-flame' size={25}/>}
                         onPress={() => this.setState({selectedTab: 'project', title: '项目'})}>
                         <ProjectView navigation={navigation}/>
                     </TabNavigator.Item>
                     <TabNavigator.Item
                         selected={this.state.selectedTab === 'like'}
-                        renderIcon={() => <Icon name='md-list' size={25} color='gray'/>}
-                        renderSelectedIcon={() => <Icon name='md-list' size={25}/>}
+                        renderIcon={() => <Icon name='md-bookmarks' size={25} color='gray'/>}
+                        renderSelectedIcon={() => <Icon name='md-bookmarks' size={25}/>}
                         onPress={() => this.setState({selectedTab: 'like', title: '收藏'})}>
                         <LikeView navigation={navigation}/>
                     </TabNavigator.Item>

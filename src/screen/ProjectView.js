@@ -1,51 +1,127 @@
-/**
- * Created by PVer on 2018/4/22.
- */
 import React from 'react'
+import {connect} from 'react-redux'
 import {
-    Dimensions,
-    FlatList,
     StyleSheet,
     Text,
     View,
+    FlatList,
     DeviceEventEmitter
 } from 'react-native'
 
-import {connect} from 'react-redux'
+import ProjectItemView from './ProjectItemView'
+import * as projectActions from '../actions/projectActions'
 
-class ProjectView extends React.Component{
+/**
+ * tab 3
+ */
+class ProjectView extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {page: 0}
+    }
+
+    // componentWillMount = () => this.props.getProjectList(this.state.page);
+    componentWillMount() {
+        this.props.getProjectList(this.state.page);
+    }
+
+    componentWillUpdate() {
+        this.props.changeLikeAction();
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.likeAction == 1) {
+            nextProps.message('添加收藏')
+        } else if (nextProps.likeAction == 2) {
+            nextProps.message('取消收藏')
+        }
+    }
+
+    componentDidMount() {
+        this.subscription = DeviceEventEmitter.addListener('reload', this._renderRefresh);
+    }
+
+    componentWillUnmount() {
+        this.subscription.remove();
+    }
+
+    //自动加载
+    _onEndReached = () => {
+        let page = this.state.page;
+        if (!this.props.isEnd) {
+            page++;
+            this.setState({page: page});
+            this.props.getProjectList(page)
+        }
+    };
+
+    // 下拉刷新
+    _renderRefresh = () => {
+        this.setState({page: 0});
+        this.props.getProjectList(0)
+    };
 
 
-    render(){
+    _likeClick = (item, index) => {
+        const {isLogin, message, projectAddCollectInSite, projectCancelCollectInArticle} = this.props;
+        if (!isLogin) {
+            message('请，没有登录');
+            return
+        }
+        if (item.collect) {
+            projectCancelCollectInArticle(item.id, index)
+        } else {
+            projectAddCollectInSite(item.id, index, true)
+        }
+    };
 
-        return(
-            <View style={styles.container}>
-                <Text style={styles.welcome}>
-                    ProjectView
-                </Text>
+
+    render() {
+        //navigation属性
+        // const { navigate } = this.props.navigation;
+        const {datas, refreshing, backgroundColor, navigation, isLogin}= this.props;
+
+        return (
+            <View style={styles.textWarpper}>
+                <FlatList
+                    data={datas}
+                    renderItem={(item,index)=><ProjectItemView item={item}  isLogin={isLogin} navigation={navigation} likeClick={this._likeClick} />}
+                    keyExtractor={ (item, index) => index}
+                    onEndReachedThreshold={0.1}
+                    onEndReached={this._onEndReached}
+                    refreshing={refreshing}
+                    onRefresh={this._renderRefresh}
+                />
             </View>
-
-        );
+        )
     }
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
+    textWarpper: {
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#F5FCFF',
     },
-    welcome: {
-        fontSize: 20,
-        textAlign: 'center',
-        margin: 10,
-    },
-    instructions: {
-        textAlign: 'center',
-        color: '#333333',
-        marginBottom: 5,
-    },
+
 });
 
-export default ProjectView
+
+const mapStateToProps = (state, ownProps) => ({
+    isSucc: state.project.isSucc,
+    datas: state.project.datas,
+    isEnd: state.project.isEnd,
+    likeAction: state.project.likeAction,
+    refreshing: state.project.refreshing
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    projectAddCollectInSite: (id, index, bool) => dispatch(projectActions.projectAddCollectInSite(id, index, bool)),
+    projectCancelCollectInArticle: (id, index) => dispatch(projectActions.projectCancelCollectInArticle(id, index)),
+    getProjectList: (page) => dispatch(projectActions.getProjectList(page)),
+    changeLikeAction: () => dispatch(projectActions.changeLikeAction())
+});
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProjectView)
+
