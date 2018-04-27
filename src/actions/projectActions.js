@@ -9,14 +9,15 @@ import  * as projectTypes from '../constants/projectTypes'
 // fetch(`${API_ROOT}/user/${userId}`)
 function getProjectList(page) {
     return dispatch => {
-        dispatch(createAction(projectTypes.FETCH_PROJECT_LIST_DOING)())
+        dispatch(createAction(projectTypes.FETCH_PROJECT_LIST_DOING)());
         HttpUtil.get('/article/list/' + page + '/json?cid=294')
         //// 触发SUCCESS的action后在reducer中更新数据
             .then(res => dispatch(createAction(projectTypes.FETCH_PROJECT_LIST_DONE)(res.data)))
     }
 }
 
-function projectAddCollectInSite(id, index, bool) {
+
+function addCollect(id, index, bool) {
     return dispatch => {
         dispatch(createAction(projectTypes.FETCH_PEOJECT_ADD_IN_SITE_DOING)());
         HttpUtil.post("/lg/collect/" + id + "/json", {id: id})
@@ -31,7 +32,7 @@ function projectAddCollectInSite(id, index, bool) {
 }
 
 
-function projectCancelCollectInArticle(id, index) {
+function cancelCollect(id, index) {
     return dispatch => {
         HttpUtil.post("/lg/uncollect_originId/" + id + "/json")
             .then(res => dispatch(createAction(projectTypes.FETCH_PROJECT_CANCEL_IN_ARTICLE_DONE)({index})));
@@ -43,7 +44,7 @@ const changeLikeAction = () => (dispatch => dispatch(createAction(projectTypes.C
 
 export{
     getProjectList,
-    projectAddCollectInSite,
-    projectCancelCollectInArticle,
+    addCollect,
+    cancelCollect,
     changeLikeAction
 }

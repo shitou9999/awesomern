@@ -3,12 +3,13 @@ import{combineReducers} from 'redux'
 import home from './homeReducer'
 import system from './systemReducer'
 import project from './projectReducer'
+import loginReducer from './loginReducer'
+import hotReducer from './hotReducer'
+import acticleDetailReducer from './acticleDetailReducer'
 // import user from './userReducer'
-// import hot from './hotReducer'
 // import search from './searchReducer'
 // import like from './likeReducer'
 // import collect from './collectReducer'
-// import articleDetail from './articleDetailReducer'
 // import theme from './themeReducer'
 // import update from './updateReducer'
 
@@ -19,13 +20,16 @@ import project from './projectReducer'
 //     ,counter2
 // });
 
-export default function getRootReducers(navReducer){
+export default function getRootReducers(navReducer) {
 //一个reducer对应state里的一个属性对应一个组件
     return combineReducers({
-        home:home,
-        system:system,
-        project:project,
-        nav:navReducer
+        home: home,
+        system: system,
+        project: project,
+        loginReducer: loginReducer,
+        hot:hotReducer,
+        acticleDetailReducer:acticleDetailReducer,
+        nav: navReducer
     })
 
 }

@@ -25,17 +25,18 @@ class SystemView extends React.Component {
         _that.props.getSystemList();
     }
 
-    _itemClick(item){
-        this.props.navigation.navigate('system_datail',item)
+    _itemClick(item) {
+        const {navigation} = this.props;
+        navigation.navigate('datail', item)
     }
 
-    _rederItem = (({item}) => (
+    _renderItem = (({item}) => (
         <TouchableNativeFeedback onPress={()=>this._itemClick(item)}>
             <View style={styles.itemWarpper}>
                 <View style={styles.textWarpper}>
                     <Text style={styles.itemText}>{item.name}</Text>
                     <View style={styles.childrenWarpper}>
-                        {item.children.map((item, index) => this._rederChildrenView(item, index))}
+                        {item.children.map((item, index) => this._renderChildrenView(item, index))}
                     </View>
                 </View>
                 <Icon style={styles.icon} name='ios-arrow-forward' size={20} color='grey'/>
@@ -43,7 +44,7 @@ class SystemView extends React.Component {
         </TouchableNativeFeedback>
     ));
 
-    _rederChildrenView = (item, index) => (
+    _renderChildrenView = (item, index) => (
         <Text key={item.id} style={styles.childrenText}>{item.name}</Text>
     );
 
@@ -64,7 +65,7 @@ class SystemView extends React.Component {
         return (
             <FlatList
                 data={datas}
-                renderItem={this._rederItem}
+                renderItem={this._renderItem}
                 ItemSeparatorComponent={this._renderItemSeparatorComponent}
                 keyExtractor={this._keyExtractor}
                 refreshing={refreshing}
@@ -73,12 +74,17 @@ class SystemView extends React.Component {
         );
     }
 }
-
+//改变 state 必须 dispatch 一个 action!!!                        store.dispatch()是 View 发出 Action 的唯一方法
+// dispatch(action) # ※ 触发 state 改变的【唯一途径】※
+//reducer 本质上是根据 action.type 来更新 state 并返回 nextState 的函数
+// reducer 必须返回值，否则 nextState 即为 undefined
+// 实际上，state 就是所有 reducer 返回值的汇总
+// Action Creator => action => store.dispatch(action) => reducer(state, action) => 原 state state = nextState
 export default connect(
     (state) => ({
         isSucc: state.system.isSucc,
         datas: state.system.datas,
-        refreshing:state.system.refreshing
+        refreshing: state.system.refreshing
     }),
     (dispatch) => ({
         getSystemList: () => dispatch(systemActions.getSystemList())

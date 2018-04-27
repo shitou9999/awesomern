@@ -11,17 +11,17 @@ function getFormData(params) {
     return formData
 }
 /*
-fetch('https://mywebsite.com/endpoint/', {
-    method: 'POST',
-    headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-        firstParam: 'yourValue',
-        secondParam: 'yourOtherValue',
-    }),
-});*/
+ fetch('https://mywebsite.com/endpoint/', {
+ method: 'POST',
+ headers: {
+ Accept: 'application/json',
+ 'Content-Type': 'application/json',
+ },
+ body: JSON.stringify({
+ firstParam: 'yourValue',
+ secondParam: 'yourOtherValue',
+ }),
+ });*/
 
 //Response
 // 属性：
@@ -57,14 +57,24 @@ function request(method, url, params = '') {
         method: method
     };
 
+    let myHeaders = new Headers({
+        'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'text/plain'
+    });
+
     if (params != '') {
         config['body'] = getFormData(params)
     }
     // var opts = {
     //     method:"GET"
     // }
+    // mode: "cors",
     config['headers'] = {
         'Cookie': RealmUtil.getCookie()
+    };
+
+    config['headers'] = {
+        'mode': 'no-cors'
     };
 
     console.log('参数', config);
@@ -98,6 +108,7 @@ export default class HttpUtil {
     static get(url, params = '') {
         return request('GET', url, params)
     }
+
     //在 Fetch 中进行 post 请求时,需要自动创建FormData 对象传给 body
     //将"key1=value1&key2=value2"封装成 FormData 形式
     // let formData = new FormData();

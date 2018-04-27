@@ -14,6 +14,15 @@ function getHome(num) {
     }
 }
 
+function getBanner() {
+    return dispatch =>{
+        HttpUtil.get('/banner/json')
+            .then(res =>dispatch(createAction(homeTypes.FETCH_HOME_BANNER_DONE)(res.data)))
+    }
+}
+
+
 export {
-    getHome
+    getHome,
+    getBanner
 }

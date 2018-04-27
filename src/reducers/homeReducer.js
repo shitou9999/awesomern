@@ -50,4 +50,14 @@ export default handleActions({
             }
         }
     },
+    //banner
+    [homeTypes.FETCH_HOME_BANNER_DONE]:{
+        next(state,action){
+            return{
+                ...state,
+                isSucc:true,
+                banners:action.payload
+            }
+        }
+    }
 }, defaultStatus)

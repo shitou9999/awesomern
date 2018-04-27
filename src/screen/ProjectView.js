@@ -18,7 +18,10 @@ class ProjectView extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {page: 0}
+        this._likeClick = this._likeClick.bind(this);
+        this.state = {
+            page: 0
+        }
     }
 
     // componentWillMount = () => this.props.getProjectList(this.state.page);
@@ -39,7 +42,12 @@ class ProjectView extends React.Component {
     }
 
     componentDidMount() {
+        //当有消息发送时，这就会接收到，并执行相应方法
         this.subscription = DeviceEventEmitter.addListener('reload', this._renderRefresh);
+        // DeviceEventEmitter.emit('left', '发送了个通知');
+        // this.deEmitter = DeviceEventEmitter.addListener('left', (a) => {
+        //     alert('收到通知：' + a);
+        // });
     }
 
     componentWillUnmount() {
@@ -63,23 +71,28 @@ class ProjectView extends React.Component {
     };
 
 
-    _likeClick = (item, index) => {
-        const {isLogin, message, projectAddCollectInSite, projectCancelCollectInArticle} = this.props;
-        if (!isLogin) {
-            message('请，没有登录');
+    _likeClick(item, index){
+        const {isLogin, message, addCollect, cancelCollect} = this.props;
+        if(isLogin){
+            message('已经登录过了');
+        }else{
+            message('你还没有登录');
             return
         }
+
         if (item.collect) {
-            projectCancelCollectInArticle(item.id, index)
+            cancelCollect(item.id, index)
         } else {
-            projectAddCollectInSite(item.id, index, true)
+            addCollect(item.id, index, true)
         }
     };
 
+    _keyExtractor = (item, index) => index;
 
+    // FlatList并不立即渲染所有元素，而是优先渲染屏幕上可见的元素
+    // renderItem：从数据源中逐个解析数据，然后返回一个设定好格式的组件来渲染
+    // keyExtractor，用于为给定的item生成一个不重复的key!!!!!若不指定此函数，则默认抽取item.key作为key值。若item.key也不存在，则使用数组下标index。
     render() {
-        //navigation属性
-        // const { navigate } = this.props.navigation;
         const {datas, refreshing, backgroundColor, navigation, isLogin}= this.props;
 
         return (
@@ -87,7 +100,7 @@ class ProjectView extends React.Component {
                 <FlatList
                     data={datas}
                     renderItem={(item,index)=><ProjectItemView item={item}  isLogin={isLogin} navigation={navigation} likeClick={this._likeClick} />}
-                    keyExtractor={ (item, index) => index}
+                    keyExtractor={this._keyExtractor}
                     onEndReachedThreshold={0.1}
                     onEndReached={this._onEndReached}
                     refreshing={refreshing}
@@ -106,7 +119,8 @@ const styles = StyleSheet.create({
 
 });
 
-
+//会订阅store的状态改变，在每次 store 的 state 发生变化的时候，都会被调用
+//mapStateToProps可以不传，如果不传，组件不会监听store的变化，也就是说Store的更新不会引起UI的更新
 const mapStateToProps = (state, ownProps) => ({
     isSucc: state.project.isSucc,
     datas: state.project.datas,
@@ -116,8 +130,8 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    projectAddCollectInSite: (id, index, bool) => dispatch(projectActions.projectAddCollectInSite(id, index, bool)),
-    projectCancelCollectInArticle: (id, index) => dispatch(projectActions.projectCancelCollectInArticle(id, index)),
+    addCollect: (id, index, bool) => dispatch(projectActions.addCollect(id, index, bool)),
+    cancelCollect: (id, index) => dispatch(projectActions.cancelCollect(id, index)),
     getProjectList: (page) => dispatch(projectActions.getProjectList(page)),
     changeLikeAction: () => dispatch(projectActions.changeLikeAction())
 });

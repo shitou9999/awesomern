@@ -2,9 +2,29 @@ import {DrawerNavigator, StackNavigator} from 'react-navigation';
 
 import WelcomeScreen from '../screen/WelcomeScreen'
 import HomeScreen from '../screen/HomeScreen'
+import ActicleDetailScreen from '../screen/ActicleDetailScreen'
+import SlideDrawer from '../screen/SlideDrawer'
+import LoginScreen from '../screen/LoginScreen'
+import SearchScreen from '../screen/SearchScreen'
 
 //跳转传数据onPress={()=>navigate('Sencond',{ hello: '你好！' })}
 //取值 const { params } = this.props.navigation.state;
+
+const slideDrawer = DrawerNavigator(
+    {
+        home: {
+            screen: HomeScreen,
+        }
+    }, {
+        drawerWidth: 280,
+        drawerPosition: 'left',
+        contentComponent: SlideDrawer,
+        containerOptions: {
+            initialRouteName: 'home'
+        }
+    }
+);
+
 
 const NavHome = StackNavigator({
         welcome: {
@@ -14,13 +34,28 @@ const NavHome = StackNavigator({
             }
         },
         home: {
-            screen: HomeScreen,
+            screen: slideDrawer,
             navigationOptions: {
                 header: null
             }
-            // navigationOptions: ({navigation}) => ({ ----->设置默认的导航栏选项
-            //     title: `次页面 ${navigation.state.params.hello}`,
-            // }),
+        },
+        detail: {
+            screen: ActicleDetailScreen,
+            navigationOptions: {
+                header: null
+            }
+        },
+        login: {
+            screen: LoginScreen,
+            navigationOptions: {
+                header: null
+            }
+        },
+        search: {
+            screen: SearchScreen,
+            navigationOptions: {
+                header: null
+            }
         },
 
     }, {
@@ -31,6 +66,7 @@ const NavHome = StackNavigator({
         // paths重新路由设置中的path        设置页面切换模式mode ，设置过渡动画transition等
         navigationOptions: ({navigation, screenProps}) => ({
             gesturesEnabled: true,
+            //     title: `次页面 ${navigation.state.params.hello}`,
             // title设置标题（默认，在没有设置header相关属性下显示）
             //header 设置导航栏头部 接收参数为React Element或者是一个返回React Element的给定HeaderProps参数的方法,如果设置为null,则整个标题栏就不显示了！
             //header我们就可以自定义我们的Header！

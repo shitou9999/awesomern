@@ -1,0 +1,45 @@
+ <View style={flatListStyles.container}>
+        <FlatList
+          data={[
+            {key: '大护法'},
+            {key: '绣春刀II：修罗战场'},
+            {key: '神偷奶爸3'},
+            {key: '神奇女侠'},
+            {key: '摔跤吧，爸爸'},
+            {key: '悟空传'},
+            {key: '闪光少女'},
+          ]}
+          renderItem={({item}) => <Text style={flatListStyles.item}>{item.key}</Text>}
+        />
+      </View>
+
+      ①data接收的数组，需要写成{key:你的数据value}的形式，否则会有黄色的警告！
+      ②renderItem绑定数据的时候：renderItem={({item}) => 你的子item的组件}，获取数据调用item.key。
+
+
+      SectionList
+      sections：这个属性同样接收的是一个数组，类似{title: 'L', data: [{key: '李四'}]}，
+      title，表示分组标题的名字，
+      data，表示这个分组下的数据源，data下的内容跟上边讲FlatList中设置data相同！
+      renderItem ：这个属性也是绑定数据到子item组件上的，跟FlatList中renderItem相同。
+      renderSectionHeader：对比renderItem，这个属性是设置分组标题的，具体使用和renderItem类似！
+      使用：renderSectionHeader={({section}) => 你要展示标题的组件}，获取标题的内容要调用：section.title
+
+        不同的section使用渲染的都是同一个子组件
+       <SectionList
+                sections={[
+                  {title: 'L', data: [{key: '李四'}]},
+                  {title: 'W', data: [{key: '王五'}]},
+                  {title: 'Z', data: [{key: '赵六'},{key: '张三'}]},
+                ]}
+                renderItem={({item}) => <Text style={styles.item}>{item.key}</Text>}
+                renderSectionHeader={({section}) => <Text style={styles.sectionHeader}>{section.title}</Text>}
+       />
+       不同的section使用不同的子组件渲染
+       <SectionList
+         sections={[ // 不同section渲染不同类型的子组件
+           {data: [...], key: ..., renderItem: ...},
+           {data: [...], key: ..., renderItem: ...},
+           {data: [...], key: ..., renderItem: ...},
+         ]}
+       />

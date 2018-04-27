@@ -47,9 +47,9 @@ class ArticleItemView extends React.PureComponent {
                         onPress={() =>likeClick(index,item)}>
                         <View
                             style={{ height: 30, width: 30, borderRadius: 15,marginRight:8,justifyContent:'center',alignItems:'center' }}>
-                            {/*<Icon*/}
-                            {/*name={(item.collect||!outline)?'md-heart':'md-heart-outline'}*/}
-                            {/*size={30} color={themeColor}/>*/}
+                            <Icon
+                                name={(item.collect)?'md-heart':'md-heart-outline'}
+                                size={30} color={themeColor}/>
                         </View>
                     </TouchableNativeFeedback>
 
@@ -65,7 +65,7 @@ ArticleItemView.propTypes = {
     hide: PropTypes.bool.isRequired,
     navigation: PropTypes.object.isRequired,
     outline: PropTypes.bool,
-    likeClick: PropTypes.func
+    likeClick: PropTypes.func.isRequired
 };
 
 ArticleItemView.defaultProps = {

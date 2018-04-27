@@ -15,6 +15,16 @@ const defaultStatus = {
 
 
 export default handleActions({
+    //加载中
+    [systemTypes.FETCH_SYSTEM_LIST_DOING]: {
+        next(state, action) {
+            return {
+                ...state,
+                isSucc: false,
+                refreshing: true
+            }
+        }
+    },
     [systemTypes.FETCH_SYSTEM_LIST_DONE]: {
         next(state, action) {
             return {
@@ -25,37 +35,27 @@ export default handleActions({
             }
         }
     },
-    [systemTypes.FETCH_SYSTEM_LIST_DOING]: {
-        next(state, action) {
-            return {
-                ...state,
-                isSucc: false,
-                refreshing: true
-            }
-        }
-    },
     [systemTypes.FETCH_SYSTEM_DETAIL_LIST_DONE]: {
         next(state, action) {
+            const data = action.payload;
+            const datas = data.datas;
+            const id = data.id;
 
-            const data = action.payload
-            const datas = data.datas
-            const id = data.id
+            let details = {...state.details};
+            let likeAction = state.likeAction;
+            let isEnd = data.curPage >= data.pageCount;
 
-            let details = {...state.details}
-            let likeAction = state.likeAction
-            let isEnd = data.curPage >= data.pageCount
-
-            let detail = {}
+            let detail = {};
 
             if (data.curPage == 1) {
                 detail = {...detail, id, isEnd, datas}
             } else {
-                let oldDatas = details[id].datas
-                let newDatas = [...oldDatas, ...datas]
+                let oldDatas = details[id].datas;
+                let newDatas = [...oldDatas, ...datas];
                 detail = {...detail, id, isEnd, datas: newDatas}
             }
 
-            details[id] = detail
+            details[id] = detail;
             return {
                 ...state,
                 isSucc: true,

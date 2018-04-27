@@ -9,6 +9,15 @@ const defaultStatus = {
     likeAction:0,
     refreshing:false,
 };
+// payload 是一个对象，用作Action携带数据的载体
+// let addTodo = (data='default data') => {
+//     return {
+//         type: ADD_TODO,
+//         payload: {
+//             data
+//         }
+//     }
+// }
 
 export default handleActions({
     [projectTypes.FETCH_PROJECT_LIST_DONE]: {

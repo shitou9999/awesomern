@@ -22,19 +22,25 @@ class ProjectItemView extends React.PureComponent {
     //     likeClick: PropTypes.func.isRequired,
     //     navigation: PropTypes.object.isRequired,
     // };
+    constructor(props) {
+        super(props);
+        this._goToDetail= this._goToDetail.bind(this);
+    }
 
-    _goToDetail = (item) => {
+    _goToDetail(item){
         const {navigation, isLogin} = this.props;
         const params = {...item, isLogin: isLogin};
-        navigation.navigate("article_detail", params)
+        navigation.navigate("detail", params)
     };
 
+
     render() {
+        // <ProjectItemView item={item}  isLogin={isLogin} navigation={navigation} likeClick={this._likeClick} />}
         const {likeClick, themeColor} = this.props;
         const {item, index} = this.props.item;
 
         return (
-            <TouchableNativeFeedback onPress={()=>this._goToDetail(item)}>
+                <TouchableNativeFeedback onPress={()=>this._goToDetail(item)}>
                 <View style={styles.itemWarpper}>
                     {/*横*/}
                     <View>

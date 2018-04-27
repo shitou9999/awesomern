@@ -48,5 +48,33 @@ export default function getStore(){
 
 //每个中间件接收 getState & dispatch 作为参数，并返回一个函数，该函数会被传入下一个中间件的 dispatch 方法，并返回一个接收 action 的新函数。
 
+// （1）Reducer：纯函数，只承担计算 State 的功能，不合适承担其他功能，也承担不了，因为理论上，纯函数不能进行读写操作。
+// （2）View：与 State 一一对应，可以看作 State 的视觉层，也不合适承担其他功能。
+// （3）Action：存放数据的对象，即消息的载体，只能被别人操作，自己不能进行任何操作。
+// 只有发送 Action 的这个步骤，即store.dispatch()方法，可以添加功能------>中间件
 
 // Redux 本身不处理异步行为，需要依赖中间件。结合 redux-actions 使用，Redux 有两个推荐的异步中间件：redux-thunk  redux-promise
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
