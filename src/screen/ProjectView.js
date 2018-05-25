@@ -19,6 +19,7 @@ class ProjectView extends React.Component {
     constructor(props) {
         super(props);
         this._likeClick = this._likeClick.bind(this);
+        // 对于需要改变的数据，我们需要使用state。
         this.state = {
             page: 0
         }
@@ -70,7 +71,9 @@ class ProjectView extends React.Component {
         this.props.getProjectList(0)
     };
 
-
+//return语句并不是必须的，另外，多行语句需要用{}括起来，单行是不需要的，并且会作为函数的返回值；
+    //箭头函数没有constructor，没有prototype，所以不支持new操作符；
+    // 但是他对this的处理和一般函数不一样；箭头函数中的this始终指向函数定义时候的this，而非执行的时候；
     _likeClick(item, index){
         const {isLogin, message, addCollect, cancelCollect} = this.props;
         if(isLogin){

@@ -4,6 +4,14 @@ import logger from 'redux-logger'
 import getRootReducer from '../reducers'
 import AppNavigator from '../route'
 
+
+// 维持应用的 state；
+// 提供 getState() 方法获取 state；
+// 提供 dispatch(action) 方法更新 state；
+// 通过 subscribe(listener) 注册监听器;
+// 通过 subscribe(listener) 返回的函数注销监听器。
+
+
 // 使用applyMiddleware挂载中间件
 //中间件 传入createStore方法，就完成了store.dispatch()的功能增强
 //中间件的次序有讲究 比如logger就一定要放在最后，否则输出结果会不正确
@@ -22,6 +30,10 @@ const navReducer = (state, action) => {
 // getState：获取仓库里存储的state
 // dispatch：执行动作，更新state(即使state没有变化)
 // subscribe：注册更新完state后要执行的cb
+
+//createStore() 的第二个参数是可选的, 用于设置 state 初始状态。这对开发同构应用时非常有用，
+// 服务器端 redux 应用的 state 结构可以与客户端保持一致, 那么客户端可以将从网络接收到的服务端 state 直接用于本地数据初始化。
+
 export default function getStore(){
     return createStore(
         getRootReducer(navReducer),

@@ -78,7 +78,7 @@ function request(method, url, params = '') {
     };
 
     console.log('参数', config);
-
+//所谓Promise，简单说就是一个容器，里面保存着某个未来才会结束的事件（通常是一个异步操作）的结果。
     return new Promise((resole, reject) => {
         fetch(request_url, config)
             .then(res => {

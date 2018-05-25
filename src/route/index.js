@@ -6,6 +6,8 @@ import ActicleDetailScreen from '../screen/ActicleDetailScreen'
 import SlideDrawer from '../screen/SlideDrawer'
 import LoginScreen from '../screen/LoginScreen'
 import SearchScreen from '../screen/SearchScreen'
+import ThemeScreen from '../screen/ThemeScreen'
+import Parent1 from '../screen/Parent1'
 
 //跳转传数据onPress={()=>navigate('Sencond',{ hello: '你好！' })}
 //取值 const { params } = this.props.navigation.state;
@@ -57,7 +59,18 @@ const NavHome = StackNavigator({
                 header: null
             }
         },
-
+        theme: {
+            screen: ThemeScreen,
+            navigationOptions: {
+                header: null
+            }
+        },
+        parent1: {
+            screen: Parent1,
+            navigationOptions: {
+                header: null
+            }
+        }
     }, {
         initialRouteName: 'welcome',
         // initialRouteName设置默认页面

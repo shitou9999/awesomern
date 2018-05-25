@@ -1,3 +1,41 @@
+
+
+  /**
+      * 1. 一个参数的可以不带括号直接作用
+      * 2. 没有参数的必须带小括号
+      * 3. 多条执行语句需花括号包裹
+      * 4. 字面量对象的返回需要小括号包括！！！！！！！
+      * 5. this强制绑定(定义绑定)，普通函数是用时绑定(apply,call,bind);箭头函数的this不等同于'use strict'模式下的this
+      */
+
+      var testArr = [1,2,3,4,5,6];
+      //1
+      testArr.map( n => ++n); //[2, 3, 4, 5, 6, 7]
+
+      //2
+      var tt = () => 55 +99;
+      tt(); //结果集：154
+
+      //3
+      var ss = (ar1,ar2) => {
+         var ar3 = ar1 > ar2 ? ar1 : ar2;
+         return ar3 - ar1;
+      };
+      ss(55,99); //结果集：44
+
+      //4: 若是不用小括号，对象那个花括号会给解析器当做标签解析，返回则是undefined!!;
+      var ee = (testKey,testValue) => ({testKey:testValue});
+      ee('myName','crper'); //Object {testKey: "crper"}
+
+     /*
+      *  箭头函数让`var self = this`这种重新指定this的写法不再出现；
+      * 箭头函数内的this强制指向obj;不需要额外的指向和bind这些
+      * 最常见需要重新指向this的一般出现在setInterval这些异步执行的函数内;
+      * 因为默认内部的指向是指向window,除非函数作为一个对象的value会指向obj;
+      */
+
+
+
  <View style={flatListStyles.container}>
         <FlatList
           data={[

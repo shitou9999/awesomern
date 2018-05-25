@@ -8,8 +8,10 @@ import {
     StyleSheet,
     Text,
     View,
-    DeviceEventEmitter
+    DeviceEventEmitter,
+    TouchableNativeFeedback
 } from 'react-native'
+const width=Dimensions.get('window').width;
 
 import {connect} from 'react-redux'
 
@@ -17,12 +19,15 @@ class LikeView extends React.Component{
 
 
     render(){
-
+        const {navigation} = this.props;
         return(
             <View style={styles.container}>
-                <Text style={styles.welcome}>
-                    LikeView
-                </Text>
+                <TouchableNativeFeedback
+                    onPress={()=>{navigation.navigate('parent1')}}>
+                    <View style={styles.item}>
+                        <Text style={{fontSize:20,color:'back'}}>跳转父传子props</Text>
+                    </View>
+                </TouchableNativeFeedback>
             </View>
 
         );
@@ -32,19 +37,13 @@ class LikeView extends React.Component{
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#F5FCFF',
+        backgroundColor: '#ffdeac',
     },
-    welcome: {
-        fontSize: 20,
+    item: {
         textAlign: 'center',
-        margin: 10,
-    },
-    instructions: {
-        textAlign: 'center',
-        color: '#333333',
-        marginBottom: 5,
+        backgroundColor: '#cfff87',
+        height:50,
+        width:width,
     },
 });
 

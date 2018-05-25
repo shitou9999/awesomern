@@ -79,6 +79,7 @@ class LoginScreen extends React.PureComponent {
 
 
     render() {
+        //使用onChangeText写入state，然后从this.state中取出值
         const {isLogin, isLoginSucc, showLoading, loginFlag, navigation} = this.props;
 
         return (
@@ -88,6 +89,7 @@ class LoginScreen extends React.PureComponent {
                     <View style={styles.textInputViewStyle}>
                         <TextInput
                             style={styles.textInputStyle}
+                            underlineColorAndroid={'transparent'}//去掉下划线
                             placeholder='我是占位符'/>
                     </View>
                     <Hideo
